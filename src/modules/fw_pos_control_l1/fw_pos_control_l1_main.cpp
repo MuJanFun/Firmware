@@ -1146,6 +1146,11 @@ FixedwingPositionControl::control_position(const math::Vector<2> &current_positi
 
 	_control_position_last_called = hrt_absolute_time();
 
+	/* only run position controller in fixed-wing mode and during transitions for VTOL */
+	if (_vehicle_status.is_rotary_wing && !_vehicle_status.in_transition_mode) {
+		return false;
+	}
+
 	bool setpoint = true;
 
 	_att_sp.fw_control_yaw = false;		// by default we don't want yaw to be contoller directly with rudder
