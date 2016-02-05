@@ -149,8 +149,17 @@ void VtolType::update_mc_state()
 
 void VtolType::update_fw_state()
 {
-	// copy virtual attitude setpoint to real attitude setpoint
-	memcpy(_v_att_sp, _fw_virtual_att_sp, sizeof(vehicle_attitude_setpoint_s));
+	// XXX Testing: This is to elimintate the switching delay of the vehicle status topic
+	// from the commander
+	if (_vehicle_status->is_rotary_wing) {
+		// commander has not yet switched to fw mode, so keep on using rotary wing outputs
+		memcpy(_v_att_sp, _mc_virtual_att_sp, sizeof(vehicle_attitude_setpoint_s));
+
+		// XXX This is to help visualize the effect in the log
+		_v_att_sp->thrust = 0.75f;
+	} else {
+		
+	}
 
 	_mc_roll_weight = 0.0f;
 	_mc_pitch_weight = 0.0f;
