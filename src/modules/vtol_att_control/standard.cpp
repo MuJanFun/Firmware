@@ -252,17 +252,14 @@ void Standard::update_transition_state()
 	_mc_throttle_weight = math::constrain(_mc_throttle_weight, 0.0f, 1.0f);
 }
 
-void Standard::update_mc_state()
+
+void Standard::update_mc_type_specific()
 {
-	// copy virtual attitude setpoint to real attitude setpoint
-	memcpy(_v_att_sp, _mc_virtual_att_sp, sizeof(vehicle_attitude_setpoint_s));
+
 }
 
-void Standard::update_fw_state()
+void Standard::update_fw_type_specific()
 {
-	// copy virtual attitude setpoint to real attitude setpoint
-	memcpy(_v_att_sp, _fw_virtual_att_sp, sizeof(vehicle_attitude_setpoint_s));
-
 	// in fw mode we need the multirotor motors to stop spinning, in backtransition mode we let them spin up again
 	if (!_flag_enable_mc_motors) {
 		set_max_mc(950);

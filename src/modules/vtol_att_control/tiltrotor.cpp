@@ -250,11 +250,8 @@ void Tiltrotor::update_vtol_state()
 	}
 }
 
-void Tiltrotor::update_mc_state()
+void Tiltrotor::update_mc_type_specific()
 {
-	// copy virtual attitude setpoint to real attitude setpoint
-	memcpy(_v_att_sp, _mc_virtual_att_sp, sizeof(vehicle_attitude_setpoint_s));
-
 	// make sure motors are not tilted
 	_tilt_control = _params_tiltrotor.tilt_mc;
 
@@ -274,11 +271,8 @@ void Tiltrotor::update_mc_state()
 	_mc_yaw_weight = 1.0f;
 }
 
-void Tiltrotor::update_fw_state()
+void Tiltrotor::update_fw_type_specific()
 {
-	// copy virtual attitude setpoint to real attitude setpoint
-	memcpy(_v_att_sp, _fw_virtual_att_sp, sizeof(vehicle_attitude_setpoint_s));
-
 	// make sure motors are tilted forward
 	_tilt_control = _params_tiltrotor.tilt_fw;
 

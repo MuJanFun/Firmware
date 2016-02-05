@@ -56,8 +56,8 @@ public:
 	~Standard();
 
 	void update_vtol_state();
-	void update_mc_state();
-	void update_fw_state();
+	void update_mc_type_specific();
+	void update_fw_type_specific();
 	void update_transition_state();
 	void update_external_state();
 

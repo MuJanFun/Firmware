@@ -76,11 +76,14 @@ public:
 	virtual ~VtolType();
 
 	virtual void update_vtol_state() = 0;
-	virtual void update_mc_state() = 0;
-	virtual void update_fw_state() = 0;
 	virtual void update_transition_state() = 0;
 	virtual void update_external_state() = 0;
 	virtual void fill_actuator_outputs() = 0;
+	virtual void update_mc_type_specific() = 0;
+	virtual void update_fw_type_specific() = 0;
+
+	void update_mc_state();
+	void update_fw_state();
 
 	void set_idle_mc();
 	void set_idle_fw();
@@ -109,6 +112,7 @@ protected:
 	struct vehicle_local_position_s		*_local_pos;
 	struct airspeed_s 					*_airspeed;					// airspeed
 	struct battery_status_s 			*_batt_status; 				// battery status
+	struct vehicle_status_s 			*_vehicle_status;			// vehicle status from commander app
 
 	struct Params 						*_params;
 

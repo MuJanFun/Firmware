@@ -229,35 +229,21 @@ void Tailsitter::update_vtol_state()
 
 
 
-void Tailsitter::update_mc_state()
+void Tailsitter::update_mc_type_specific()
 {
 	// set idle speed for rotary wing mode
 	if (!flag_idle_mc) {
 		set_idle_mc();
 		flag_idle_mc = true;
 	}
-
-	_mc_roll_weight = 1.0f;
-	_mc_pitch_weight = 1.0f;
-	_mc_yaw_weight = 1.0f;
-
-	// copy virtual attitude setpoint to real attitude setpoint
-	memcpy(_v_att_sp, _mc_virtual_att_sp, sizeof(vehicle_attitude_setpoint_s));
 }
 
-void Tailsitter::update_fw_state()
+void Tailsitter::update_fw_type_specific()
 {
 	if (flag_idle_mc) {
 		set_idle_fw();
 		flag_idle_mc = false;
 	}
-
-	_mc_roll_weight = 0.0f;
-	_mc_pitch_weight = 0.0f;
-	_mc_yaw_weight = 0.0f;
-
-	// copy virtual attitude setpoint to real attitude setpoint
-	memcpy(_v_att_sp, _fw_virtual_att_sp, sizeof(vehicle_attitude_setpoint_s));
 }
 
 void Tailsitter::update_transition_state()

@@ -73,6 +73,7 @@ VtolAttitudeControl::VtolAttitudeControl() :
 	_airspeed_sub(-1),
 	_battery_status_sub(-1),
 	_vehicle_cmd_sub(-1),
+	_vehicle_status_sub(-1),
 
 	//init publication handlers
 	_actuators_0_pub(nullptr),
@@ -103,6 +104,7 @@ VtolAttitudeControl::VtolAttitudeControl() :
 	memset(&_airspeed, 0, sizeof(_airspeed));
 	memset(&_batt_status, 0, sizeof(_batt_status));
 	memset(&_vehicle_cmd, 0, sizeof(_vehicle_cmd));
+	memset(&_vehicle_status, 0, sizeof(_vehicle_status));
 
 	_params.idle_pwm_mc = PWM_DEFAULT_MIN;
 	_params.vtol_motor_count = 0;
@@ -403,6 +405,21 @@ VtolAttitudeControl::vehicle_cmd_poll()
 }
 
 /**
+* Check for vehicle status updates.
+*/
+void
+VtolAttitudeControl::vehicle_status_poll()
+{
+	bool updated;
+
+	orb_check(_vehicle_status_sub, &updated);
+
+	if (updated) {
+		orb_copy(ORB_ID(vehicle_status), _vehicle_status_sub , &_vehicle_status);
+	}
+}
+
+/**
 * Check received command
 */
 void
@@ -546,6 +563,7 @@ void VtolAttitudeControl::task_main()
 	_airspeed_sub          = orb_subscribe(ORB_ID(airspeed));
 	_battery_status_sub	   = orb_subscribe(ORB_ID(battery_status));
 	_vehicle_cmd_sub	   = orb_subscribe(ORB_ID(vehicle_command));
+	_vehicle_status_sub    = orb_subscribe(ORB_ID(vehicle_status));
 
 	_actuator_inputs_mc    = orb_subscribe(ORB_ID(actuator_controls_virtual_mc));
 	_actuator_inputs_fw    = orb_subscribe(ORB_ID(actuator_controls_virtual_fw));
@@ -622,6 +640,7 @@ void VtolAttitudeControl::task_main()
 		vehicle_airspeed_poll();
 		vehicle_battery_poll();
 		vehicle_cmd_poll();
+		vehicle_status_poll();
 
 		// update the vtol state machine which decides which mode we are in
 		_vtol_type->update_vtol_state();

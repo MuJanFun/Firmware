@@ -62,12 +62,12 @@ public:
 	/**
 	 * Update multicopter state.
 	 */
-	void update_mc_state();
+	void update_mc_type_specific();
 
 	/**
 	 * Update fixed wing state.
 	 */
-	void update_fw_state();
+	void update_fw_type_specific();
 
 	/**
 	 * Update transition state.
