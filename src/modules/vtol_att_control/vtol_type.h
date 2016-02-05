@@ -90,6 +90,8 @@ public:
 
 	mode get_mode() {return _vtol_mode;};
 
+	bool is_in_blending() { return _transition_in_blending; };
+
 protected:
 	VtolAttitudeControl *_attc;
 	mode _vtol_mode;
@@ -128,6 +130,7 @@ protected:
 	float _pitch_transition_start;  // pitch angle at the start of transition (tailsitter)
 	float _throttle_transition; // throttle value used for the transition phase
 	bool _flag_was_in_trans_mode;	// true if mode has just switched to transition
+	bool _transition_in_blending;	// true if blending is active during the transition
 
 };
 

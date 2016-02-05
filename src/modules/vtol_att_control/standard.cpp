@@ -192,6 +192,7 @@ void Standard::update_transition_state()
 {
 	// copy virtual attitude setpoint to real attitude setpoint
 	memcpy(_v_att_sp, _mc_virtual_att_sp, sizeof(vehicle_attitude_setpoint_s));
+	_transition_in_blending = false;
 
 	if (_vtol_schedule.flight_mode == TRANSITION_TO_FW) {
 		if (_params_standard.front_trans_dur <= 0.0f) {
@@ -212,6 +213,11 @@ void Standard::update_transition_state()
 			_mc_pitch_weight = weight;
 			_mc_yaw_weight = weight;
 			_mc_throttle_weight = weight;
+
+			_transition_in_blending = true;
+			_v_att_sp->roll_body = _fw_virtual_att_sp->roll_body;
+			_v_att_sp->pitch_body = _fw_virtual_att_sp->pitch_body;
+			_v_att_sp->yaw_body = _fw_virtual_att_sp->yaw_body;
 
 		} else {
 			// at low speeds give full weight to mc

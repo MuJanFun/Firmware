@@ -688,7 +688,8 @@ void VtolAttitudeControl::task_main()
 		} else if (_vtol_type->get_mode() == TRANSITION) {
 			// vehicle is doing a transition
 			_vtol_vehicle_status.vtol_in_trans_mode = true;
-			_vtol_vehicle_status.vtol_in_rw_mode = true; //making mc attitude controller work during transition
+			// making MC attitude controller work during transition or FW if we're in forward transition blending
+			_vtol_vehicle_status.vtol_in_rw_mode = !_vtol_type->is_in_blending();
 
 			bool got_new_data = false;
 
