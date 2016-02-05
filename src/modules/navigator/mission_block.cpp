@@ -36,6 +36,7 @@
  * Helper class to use mission items
  *
  * @author Julian Oes <julian@oes.ch>
+ * @author Andreas Antener <andreas@uaventure.com>
  */
 
 #include <sys/types.h>
