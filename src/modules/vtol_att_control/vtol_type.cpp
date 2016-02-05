@@ -158,7 +158,7 @@ void VtolType::update_fw_state()
 		// XXX This is to help visualize the effect in the log
 		_v_att_sp->thrust = 0.75f;
 	} else {
-		
+		memcpy(_v_att_sp, _fw_virtual_att_sp, sizeof(vehicle_attitude_setpoint_s));
 	}
 
 	_mc_roll_weight = 0.0f;
